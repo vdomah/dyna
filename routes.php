@@ -6,7 +6,7 @@ use Payum\Core\Storage\FilesystemStorage;
 use Payum\Core\Request\Capture;
 use Payum\Core\Reply\HttpRedirect;
 
-Route::get('/payout', function() {
+Route::get('/massive', function() {
     // config.php
 
     $builder = new PayumBuilder();
@@ -46,7 +46,7 @@ Route::get('/payout', function() {
     // end prepare.php
 });
 
-Route::get('/payout/capture', function() {
+Route::get('/massive/payout', function() {
     // config.php
 
     $builder = new PayumBuilder();
