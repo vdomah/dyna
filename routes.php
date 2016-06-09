@@ -6,7 +6,9 @@ use Payum\Core\Storage\FilesystemStorage;
 use Payum\Core\Request\Capture;
 use Payum\Core\Reply\HttpRedirect;
 
-Route::get('/adaptive', function() {
+Route::get('/payout', function() {
+    // config.php
+
     $builder = new PayumBuilder();
     $builder->setGenericTokenFactoryPaths(['payout' => 'payout']);
     $payum = $builder
@@ -23,6 +25,9 @@ Route::get('/adaptive', function() {
 
         ->getPayum()
     ;
+    // end config.php
+
+    //prepare.php
 
     $gatewayName = 'aGateway';
 
@@ -35,11 +40,15 @@ Route::get('/adaptive', function() {
     $storage->update($payout);
 
     $payoutToken = $payum->getTokenFactory()->createPayoutToken($gatewayName, $payout, 'done.php');
-    //dd($payoutToken);
+
     header("Location: ".$payoutToken->getTargetUrl());
+
+    // end prepare.php
 });
 
-Route::get('/adaptive/payout', function() {
+Route::get('/payout/capture', function() {
+    // config.php
+
     $builder = new PayumBuilder();
     $builder->setGenericTokenFactoryPaths(['payout' => 'payout']);
     $payum = $builder
@@ -56,6 +65,9 @@ Route::get('/adaptive/payout', function() {
 
         ->getPayum()
     ;
+    // end config.php
+
+    //payout.php
 
     $token = $payum->getHttpRequestVerifier()->verify($_REQUEST);
     $gateway = $payum->getGateway($token->getGatewayName());
@@ -80,4 +92,5 @@ Route::get('/adaptive/payout', function() {
     } catch (ReplyInterface $reply) {
         throw new \LogicException('Unsupported reply', null, $reply);
     }
+    //end payout.php
 });
