@@ -65,7 +65,7 @@ class Payments extends PayumController {
 
         try {
             $gateway->execute(new Payout($token));
-            dd($gateway);
+            
             if (false == isset($_REQUEST['noinvalidate'])) {
                 $this->getPayum()->getHttpRequestVerifier()->invalidate($token);
             }
